@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,9 @@
 		4E9834C624CEF90600057B4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E9834C424CEF90600057B4C /* LaunchScreen.storyboard */; };
 		4E9834D124CEFA2B00057B4C /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D024CEFA2B00057B4C /* BaseVC.swift */; };
 		4E9834D624CEFAFA00057B4C /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D524CEFAFA00057B4C /* MainVC.swift */; };
+		4E9834D824CF0CF100057B4C /* GuideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D724CF0CF100057B4C /* GuideVC.swift */; };
+		4E9834DA24CF0D8E00057B4C /* BaseNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D924CF0D8E00057B4C /* BaseNavController.swift */; };
+		4E9834DD24CF0EC800057B4C /* ColorExtra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834DC24CF0EC800057B4C /* ColorExtra.swift */; };
 		909AB4F57C62C0A84AE3F43C /* Pods_TwiVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F429707D6A6258A3E0328E /* Pods_TwiVideo.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +27,9 @@
 		4E9834C724CEF90600057B4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E9834D024CEFA2B00057B4C /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		4E9834D524CEFAFA00057B4C /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		4E9834D724CF0CF100057B4C /* GuideVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideVC.swift; sourceTree = "<group>"; };
+		4E9834D924CF0D8E00057B4C /* BaseNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavController.swift; sourceTree = "<group>"; };
+		4E9834DC24CF0EC800057B4C /* ColorExtra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtra.swift; sourceTree = "<group>"; };
 		D3F429707D6A6258A3E0328E /* Pods_TwiVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwiVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD139970C2DBB921B6C093A7 /* Pods-TwiVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiVideo.release.xcconfig"; path = "Target Support Files/Pods-TwiVideo/Pods-TwiVideo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +77,7 @@
 		4E9834CD24CEFA1300057B4C /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				4E9834DB24CF0E9500057B4C /* Extension */,
 				4E9834CE24CEFA1800057B4C /* Base */,
 			);
 			path = Others;
@@ -88,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				4E9834D024CEFA2B00057B4C /* BaseVC.swift */,
+				4E9834D924CF0D8E00057B4C /* BaseNavController.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -115,8 +123,17 @@
 			isa = PBXGroup;
 			children = (
 				4E9834D524CEFAFA00057B4C /* MainVC.swift */,
+				4E9834D724CF0CF100057B4C /* GuideVC.swift */,
 			);
 			path = VC;
+			sourceTree = "<group>";
+		};
+		4E9834DB24CF0E9500057B4C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4E9834DC24CF0EC800057B4C /* ColorExtra.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		9DDCB06D97B287C5A85D783E /* Pods */ = {
@@ -125,7 +142,6 @@
 				298ECB6EF28ABB6A166FCF27 /* Pods-TwiVideo.debug.xcconfig */,
 				FD139970C2DBB921B6C093A7 /* Pods-TwiVideo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -251,9 +267,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E9834DD24CF0EC800057B4C /* ColorExtra.swift in Sources */,
 				4E9834D624CEFAFA00057B4C /* MainVC.swift in Sources */,
 				4E9834D124CEFA2B00057B4C /* BaseVC.swift in Sources */,
 				4E9834BA24CEF90400057B4C /* AppDelegate.swift in Sources */,
+				4E9834D824CF0CF100057B4C /* GuideVC.swift in Sources */,
+				4E9834DA24CF0D8E00057B4C /* BaseNavController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
