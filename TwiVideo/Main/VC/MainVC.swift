@@ -15,6 +15,12 @@ class MainVC: BaseVC {
 
         // Do any additional setup after loading the view.
         
-        self.view.backgroundColor = .brown
+        self.view.backgroundColor = .white
+        
+        self.initSubviews()
+    }
+    
+    func initSubviews() {
+        let txtOfTitle = UILabel()
     }
 }

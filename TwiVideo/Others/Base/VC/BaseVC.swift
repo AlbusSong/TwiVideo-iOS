@@ -17,4 +17,8 @@ class BaseVC: UIViewController {
         
         self.view.backgroundColor = .white
     }
+    
+//    func initSubviews() -> Void {
+//        // Do something in subclasses
+//    }
 }

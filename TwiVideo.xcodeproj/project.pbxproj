@@ -12,9 +12,11 @@
 		4E9834C624CEF90600057B4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E9834C424CEF90600057B4C /* LaunchScreen.storyboard */; };
 		4E9834D124CEFA2B00057B4C /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D024CEFA2B00057B4C /* BaseVC.swift */; };
 		4E9834D624CEFAFA00057B4C /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D524CEFAFA00057B4C /* MainVC.swift */; };
+		909AB4F57C62C0A84AE3F43C /* Pods_TwiVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F429707D6A6258A3E0328E /* Pods_TwiVideo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		298ECB6EF28ABB6A166FCF27 /* Pods-TwiVideo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiVideo.debug.xcconfig"; path = "Target Support Files/Pods-TwiVideo/Pods-TwiVideo.debug.xcconfig"; sourceTree = "<group>"; };
 		4E9834B624CEF90400057B4C /* TwiVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwiVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E9834B924CEF90400057B4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4E9834C224CEF90600057B4C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -22,6 +24,8 @@
 		4E9834C724CEF90600057B4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E9834D024CEFA2B00057B4C /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		4E9834D524CEFAFA00057B4C /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		D3F429707D6A6258A3E0328E /* Pods_TwiVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwiVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD139970C2DBB921B6C093A7 /* Pods-TwiVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiVideo.release.xcconfig"; path = "Target Support Files/Pods-TwiVideo/Pods-TwiVideo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				909AB4F57C62C0A84AE3F43C /* Pods_TwiVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +45,8 @@
 			children = (
 				4E9834B824CEF90400057B4C /* TwiVideo */,
 				4E9834B724CEF90400057B4C /* Products */,
+				9DDCB06D97B287C5A85D783E /* Pods */,
+				D463F44AB5B2B715A225C8EB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +119,24 @@
 			path = VC;
 			sourceTree = "<group>";
 		};
+		9DDCB06D97B287C5A85D783E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				298ECB6EF28ABB6A166FCF27 /* Pods-TwiVideo.debug.xcconfig */,
+				FD139970C2DBB921B6C093A7 /* Pods-TwiVideo.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		D463F44AB5B2B715A225C8EB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D3F429707D6A6258A3E0328E /* Pods_TwiVideo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -119,9 +144,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4E9834CA24CEF90600057B4C /* Build configuration list for PBXNativeTarget "TwiVideo" */;
 			buildPhases = (
+				CC7F0198FFB74811FFEB8277 /* [CP] Check Pods Manifest.lock */,
 				4E9834B224CEF90400057B4C /* Sources */,
 				4E9834B324CEF90400057B4C /* Frameworks */,
 				4E9834B424CEF90400057B4C /* Resources */,
+				52592E68888B2CE7E43411A7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -176,6 +203,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		52592E68888B2CE7E43411A7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TwiVideo/Pods-TwiVideo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TwiVideo/Pods-TwiVideo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TwiVideo/Pods-TwiVideo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC7F0198FFB74811FFEB8277 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TwiVideo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4E9834B224CEF90400057B4C /* Sources */ = {
@@ -318,6 +387,7 @@
 		};
 		4E9834CB24CEF90600057B4C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 298ECB6EF28ABB6A166FCF27 /* Pods-TwiVideo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -336,6 +406,7 @@
 		};
 		4E9834CC24CEF90600057B4C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD139970C2DBB921B6C093A7 /* Pods-TwiVideo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
