@@ -8,22 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		4E9834BA24CEF90400057B4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834B924CEF90400057B4C /* AppDelegate.swift */; };
-		4E9834BC24CEF90400057B4C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834BB24CEF90400057B4C /* SceneDelegate.swift */; };
-		4E9834BE24CEF90400057B4C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834BD24CEF90400057B4C /* ViewController.swift */; };
-		4E9834C124CEF90400057B4C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E9834BF24CEF90400057B4C /* Main.storyboard */; };
 		4E9834C324CEF90600057B4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E9834C224CEF90600057B4C /* Assets.xcassets */; };
 		4E9834C624CEF90600057B4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E9834C424CEF90600057B4C /* LaunchScreen.storyboard */; };
+		4E9834D124CEFA2B00057B4C /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D024CEFA2B00057B4C /* BaseVC.swift */; };
+		4E9834D624CEFAFA00057B4C /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D524CEFAFA00057B4C /* MainVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4E9834B624CEF90400057B4C /* TwiVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwiVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E9834B924CEF90400057B4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4E9834BB24CEF90400057B4C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		4E9834BD24CEF90400057B4C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		4E9834C024CEF90400057B4C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4E9834C224CEF90600057B4C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4E9834C524CEF90600057B4C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4E9834C724CEF90600057B4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4E9834D024CEFA2B00057B4C /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
+		4E9834D524CEFAFA00057B4C /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +54,62 @@
 		4E9834B824CEF90400057B4C /* TwiVideo */ = {
 			isa = PBXGroup;
 			children = (
+				4E9834D324CEFAE200057B4C /* Main */,
+				4E9834D224CEFA4200057B4C /* SupportingFiles */,
+				4E9834CD24CEFA1300057B4C /* Others */,
+			);
+			path = TwiVideo;
+			sourceTree = "<group>";
+		};
+		4E9834CD24CEFA1300057B4C /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				4E9834CE24CEFA1800057B4C /* Base */,
+			);
+			path = Others;
+			sourceTree = "<group>";
+		};
+		4E9834CE24CEFA1800057B4C /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				4E9834CF24CEFA1D00057B4C /* VC */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		4E9834CF24CEFA1D00057B4C /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				4E9834D024CEFA2B00057B4C /* BaseVC.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		4E9834D224CEFA4200057B4C /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
 				4E9834B924CEF90400057B4C /* AppDelegate.swift */,
-				4E9834BB24CEF90400057B4C /* SceneDelegate.swift */,
-				4E9834BD24CEF90400057B4C /* ViewController.swift */,
-				4E9834BF24CEF90400057B4C /* Main.storyboard */,
 				4E9834C224CEF90600057B4C /* Assets.xcassets */,
 				4E9834C424CEF90600057B4C /* LaunchScreen.storyboard */,
 				4E9834C724CEF90600057B4C /* Info.plist */,
 			);
-			path = TwiVideo;
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		4E9834D324CEFAE200057B4C /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				4E9834D424CEFAE700057B4C /* VC */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		4E9834D424CEFAE700057B4C /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				4E9834D524CEFAFA00057B4C /* MainVC.swift */,
+			);
+			path = VC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +172,6 @@
 			files = (
 				4E9834C624CEF90600057B4C /* LaunchScreen.storyboard in Resources */,
 				4E9834C324CEF90600057B4C /* Assets.xcassets in Resources */,
-				4E9834C124CEF90400057B4C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +182,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E9834BE24CEF90400057B4C /* ViewController.swift in Sources */,
+				4E9834D624CEFAFA00057B4C /* MainVC.swift in Sources */,
+				4E9834D124CEFA2B00057B4C /* BaseVC.swift in Sources */,
 				4E9834BA24CEF90400057B4C /* AppDelegate.swift in Sources */,
-				4E9834BC24CEF90400057B4C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		4E9834BF24CEF90400057B4C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4E9834C024CEF90400057B4C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		4E9834C424CEF90600057B4C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -216,7 +252,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -270,7 +306,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -286,7 +322,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Y3HHHZ63R;
-				INFOPLIST_FILE = TwiVideo/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/TwiVideo/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,7 +340,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Y3HHHZ63R;
-				INFOPLIST_FILE = TwiVideo/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/TwiVideo/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

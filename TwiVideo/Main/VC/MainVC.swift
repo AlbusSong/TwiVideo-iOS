@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainVC.swift
 //  TwiVideo
 //
 //  Created by Albus on 7/27/20.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MainVC: BaseVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
+        
+        self.view.backgroundColor = .brown
     }
-
-
 }
-
