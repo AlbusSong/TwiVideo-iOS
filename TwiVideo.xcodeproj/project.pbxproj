@@ -15,6 +15,8 @@
 		4E9834D824CF0CF100057B4C /* GuideVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D724CF0CF100057B4C /* GuideVC.swift */; };
 		4E9834DA24CF0D8E00057B4C /* BaseNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834D924CF0D8E00057B4C /* BaseNavController.swift */; };
 		4E9834DD24CF0EC800057B4C /* ColorExtra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834DC24CF0EC800057B4C /* ColorExtra.swift */; };
+		4EA57C6324D06FC500A0495E /* GlobalTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA57C6224D06FC500A0495E /* GlobalTool.swift */; };
+		4EDC8A8824D072D300484F2D /* TwitterVideoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EDC8A8724D072D300484F2D /* TwitterVideoVC.swift */; };
 		909AB4F57C62C0A84AE3F43C /* Pods_TwiVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F429707D6A6258A3E0328E /* Pods_TwiVideo.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +32,8 @@
 		4E9834D724CF0CF100057B4C /* GuideVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideVC.swift; sourceTree = "<group>"; };
 		4E9834D924CF0D8E00057B4C /* BaseNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavController.swift; sourceTree = "<group>"; };
 		4E9834DC24CF0EC800057B4C /* ColorExtra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtra.swift; sourceTree = "<group>"; };
+		4EA57C6224D06FC500A0495E /* GlobalTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTool.swift; sourceTree = "<group>"; };
+		4EDC8A8724D072D300484F2D /* TwitterVideoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterVideoVC.swift; sourceTree = "<group>"; };
 		D3F429707D6A6258A3E0328E /* Pods_TwiVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwiVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD139970C2DBB921B6C093A7 /* Pods-TwiVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiVideo.release.xcconfig"; path = "Target Support Files/Pods-TwiVideo/Pods-TwiVideo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,6 +81,7 @@
 		4E9834CD24CEFA1300057B4C /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				4EA57C6124D06FA100A0495E /* Tool */,
 				4E9834DB24CF0E9500057B4C /* Extension */,
 				4E9834CE24CEFA1800057B4C /* Base */,
 			);
@@ -124,6 +129,7 @@
 			children = (
 				4E9834D524CEFAFA00057B4C /* MainVC.swift */,
 				4E9834D724CF0CF100057B4C /* GuideVC.swift */,
+				4EDC8A8724D072D300484F2D /* TwitterVideoVC.swift */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -134,6 +140,14 @@
 				4E9834DC24CF0EC800057B4C /* ColorExtra.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		4EA57C6124D06FA100A0495E /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				4EA57C6224D06FC500A0495E /* GlobalTool.swift */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 		9DDCB06D97B287C5A85D783E /* Pods */ = {
@@ -268,6 +282,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E9834DD24CF0EC800057B4C /* ColorExtra.swift in Sources */,
+				4EA57C6324D06FC500A0495E /* GlobalTool.swift in Sources */,
+				4EDC8A8824D072D300484F2D /* TwitterVideoVC.swift in Sources */,
 				4E9834D624CEFAFA00057B4C /* MainVC.swift in Sources */,
 				4E9834D124CEFA2B00057B4C /* BaseVC.swift in Sources */,
 				4E9834BA24CEF90400057B4C /* AppDelegate.swift in Sources */,

@@ -9,7 +9,9 @@
 import UIKit
 import SnapKit
 
-class MainVC: BaseVC {
+class MainVC: BaseVC, UITextViewDelegate {
+    
+    var content : String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +63,7 @@ class MainVC: BaseVC {
             make.centerX.equalToSuperview()
             make.height.equalTo(21)
         }
-        txtOfGuide.attributedText = NSAttributedString(string: "Guide?", attributes: [NSAttributedString.Key.underlineStyle : 1])
+        txtOfGuide.attributedText = NSAttributedString(string: "Guide", attributes: [NSAttributedString.Key.underlineStyle : 1])
         
         
         let txvOfContent = UITextView()
@@ -71,6 +73,7 @@ class MainVC: BaseVC {
         txvOfContent.layer.borderWidth = 1
         txvOfContent.clipsToBounds = true
         txvOfContent.layer.cornerRadius = 3
+        txvOfContent.delegate = self
         txvOfContent.textColor = UIColor.init(white: 0.1, alpha: 1.0)
         self.view.addSubview(txvOfContent)
         txvOfContent.snp.makeConstraints { (make) in
@@ -87,6 +90,7 @@ class MainVC: BaseVC {
         btnAnalyze.titleLabel?.font = .boldSystemFont(ofSize: 18)
         btnAnalyze.setTitle("Start Analysis", for: .normal)
         btnAnalyze.backgroundColor = .init(white: 0.9, alpha: 1.0)
+        btnAnalyze.addTarget(self, action: #selector(tryToAnalyze), for: .touchUpInside)
         self.view.addSubview(btnAnalyze)
         btnAnalyze.snp.makeConstraints { (make) in
             make.top.equalTo(txvOfContent.snp_bottomMargin).offset(50)
@@ -94,6 +98,12 @@ class MainVC: BaseVC {
             make.right.equalToSuperview().offset(-20)
             make.height.equalTo(50)
         }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        print("textView: \(textView.text!)")
+        
+        self.content = textView.text
     }
     
     @objc private func txtOfGuideClicked() {
@@ -104,5 +114,24 @@ class MainVC: BaseVC {
     
     @objc private func backgroundViewClicked() {
         self.view.endEditing(true)
+    }
+    
+    @objc private func tryToAnalyze() {
+        print("tryToAnalyze: \(self.content.count)")
+        
+        if (self.content.count == 0) {
+            GlobalTool.showSingleAlert(title: "No Content Input", message: "Please input a Twitter link", actionTitle: "Okay", at: self)
+            return
+        }
+        
+        if ((self.content.hasPrefix("https://twitter.com/") || self.content.hasPrefix("http://twitter.com/")) == false) {
+            GlobalTool.showSingleAlert(title: "Invalid Twitter Link", message: "Please input a valid Twitter link", actionTitle: "Okay", at: self)
+            return
+        }
+        
+        // https://twitter.com/BullPup2A/status/1288041237992415232?s=20
+        let twitterVideoVC = TwitterVideoVC()
+        let nav = BaseNavController(rootViewController: twitterVideoVC)
+        self.present(nav, animated: true, completion: nil)
     }
 }
