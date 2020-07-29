@@ -15,6 +15,8 @@ import Photos
 class TwitterVideoVC: BaseVC {
     
     var urlContent: String!
+    var userAgent: String!
+    
     var headers: HTTPHeaders!
     var video_id: String!
     
@@ -37,13 +39,13 @@ class TwitterVideoVC: BaseVC {
     
     private func startAnalyze() {
         self.headers = [
-            "User-Agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0",
+            "User-Agent": self.userAgent,
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "accept-language": "es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5"]
 //        config.httpAdditionalHeaders = headers
 //        let session = URLSession.shared
         self.video_id = String(self.urlContent.split(separator: "/").last ?? "")
-        print("ssssss: \(self.video_id)")
+        print("ssssss: \(self.video_id!)")
         weak var weakSelf = self
         AF.request("https://twitter.com/i/videos/tweet/" + self.video_id, method: .get, headers: self.headers).response  { responseData in
             let htmlString: String = String(data: responseData.data ?? Data(), encoding: .utf8) ?? ""
@@ -120,16 +122,27 @@ class TwitterVideoVC: BaseVC {
             case .success(let j):
                 print("json video info: \(j)")
                 let json = j as! [String: Any]
-                let extended_entities = (json["extended_entities"] as! [String: Any])["media"] as! [Any]
-                print("extended_entities: \(extended_entities)")
-                if (extended_entities.count == 0) {
+                guard let extended_entities = json["extended_entities"] as? [String: Any] else {
                     GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                    weakSelf?.hideHintUI()
                     return
                 }
-                let video_infos = ((extended_entities.first as! [String: Any])["video_info"] as! [String: Any])["variants"] as! [Any]
+                guard let media = extended_entities["media"] as? [Any] else {
+                    GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                    weakSelf?.hideHintUI()
+                    return
+                }
+                print("media: \(media)")
+                if (media.count == 0) {
+                    GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                    weakSelf?.hideHintUI()
+                    return
+                }
+                let video_infos = ((media.first as! [String: Any])["video_info"] as! [String: Any])["variants"] as! [Any]
                 print("video_infos: \(video_infos)")
                 if (video_infos.count == 0) {
                     GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                    weakSelf?.hideHintUI()
                     return
                 }
                 
@@ -152,20 +165,26 @@ class TwitterVideoVC: BaseVC {
                 print("currentThread: \(Thread.current)")
                 if (self.final_result?.count == 0) {
                     GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                    weakSelf?.hideHintUI()
                     return
                 }
                 weakSelf?.handleVideoLink()
             case .failure(let error):
                 print("json error: \(error)")
                 GlobalTool.showSingleAlert(title: "Error", message: error.errorDescription, actionTitle: "Retry", at:self)
+                weakSelf?.hideHintUI()
             }
         }
     }
     
-    private func handleVideoLink() {
+    private func hideHintUI() {
         self.activityIndView.stopAnimating()
         self.activityIndView.removeFromSuperview()
         self.txtOfHint.removeFromSuperview()
+    }
+    
+    private func handleVideoLink() {
+        self.hideHintUI()
         
         let activityIndView2 = UIActivityIndicatorView(style: .gray)
         activityIndView2.startAnimating()

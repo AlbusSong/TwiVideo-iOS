@@ -8,10 +8,14 @@
 
 import UIKit
 import SnapKit
+import WebKit
 
 class MainVC: BaseVC, UITextViewDelegate {
     
     var content : String = ""
+    
+    var webViewForUserAgent: WKWebView?
+    var userAgent: String! = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +27,20 @@ class MainVC: BaseVC, UITextViewDelegate {
         self.view.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(backgroundViewClicked)))
         
         self.initSubviews()
+        
+        self.getUserAgent()
+    }
+    
+    private func getUserAgent() {
+        self.webViewForUserAgent = WKWebView()
+        self.webViewForUserAgent?.evaluateJavaScript("navigator.userAgent") { (result, error) in
+            if let unwrappedUserAgent = result as? String {
+                print("userAgent: \(unwrappedUserAgent)")
+                self.userAgent = unwrappedUserAgent
+            } else {
+                print("Failed to get userAgent")
+            }
+        }
     }
     
     func initSubviews() {
@@ -132,6 +150,7 @@ class MainVC: BaseVC, UITextViewDelegate {
         // https://twitter.com/GuoXiaoTian2018/status/1288120414628020226?s=20
         let twitterVideoVC = TwitterVideoVC()
         twitterVideoVC.urlContent = self.content
+        twitterVideoVC.userAgent = self.userAgent
         let nav = BaseNavController(rootViewController: twitterVideoVC)
         self.present(nav, animated: true, completion: nil)
     }
