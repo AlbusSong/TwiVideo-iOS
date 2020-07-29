@@ -8,10 +8,10 @@
 
 import UIKit
 import SnapKit
-import WebKit
 import Alamofire
+import AVKit
 
-class TwitterVideoVC: BaseVC, WKNavigationDelegate {
+class TwitterVideoVC: BaseVC {
     
     var urlContent: String!
     var headers: HTTPHeaders!
@@ -117,7 +117,7 @@ class TwitterVideoVC: BaseVC, WKNavigationDelegate {
         AF.request("https://api.twitter.com/1.1/statuses/show.json?id=" + self.video_id, method: .get, headers: self.headers).responseJSON { response in
             switch response.result {
             case .success(let j):
-//                print("json video info: \(j)")
+                print("json video info: \(j)")
                 let json = j as! [String: Any]
                 let extended_entities = (json["extended_entities"] as! [String: Any])["media"] as! [Any]
                 print("extended_entities: \(extended_entities)")
@@ -149,6 +149,10 @@ class TwitterVideoVC: BaseVC, WKNavigationDelegate {
                     }
                 }
                 print("currentThread: \(Thread.current)")
+                if (self.final_result?.count == 0) {
+                    GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                    return
+                }
                 weakSelf?.handleVideoLink()
             case .failure(let error):
                 print("json error: \(error)")
@@ -161,17 +165,41 @@ class TwitterVideoVC: BaseVC, WKNavigationDelegate {
         self.activityIndView.stopAnimating()
         self.activityIndView.removeFromSuperview()
         self.txtOfHint.removeFromSuperview()
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Save", style: .done, target: self, action: #selector(tryToSaveVideo))
+        
+        self.startToDownloadVideo()
+        self.startToPlayVideo()
+    }
+    
+    private func startToDownloadVideo() {
+//        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
+        let destination: DownloadRequest.Destination = { temporaryURL, response in
+            let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+
+            let url = directoryURL.appendingPathComponent("TwitterVideo.mp4") 
+
+            return (url, [.removePreviousFile])
+        }
+
+        AF.download(self.final_result!, to: destination).downloadProgress { progress in
+            print("progress: \(progress.fractionCompleted)")
+        }.response { response in
+            print("download response: \(response)")
+        }
+    }
+    
+    private func startToPlayVideo() {
+        let player = AVPlayer(url: URL(string: self.final_result!)!)
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        playerViewController.view.frame = self.view.bounds
+        playerViewController.view.backgroundColor = UIColor.black
+        self.addChild(playerViewController)
+        self.view.addSubview(playerViewController.view)
     }
     
     private func initSubview() {
-//        let webView = WKWebView()
-//        webView.frame = self.view.bounds
-//        webView.navigationDelegate = self
-//        self.view.addSubview(webView)
-//        webView.load(URLRequest(url: URL(string: self.urlContent)!))
-//        webView.evaluateJavaScript("navigator.userAgent") { (result, e) in
-//            print("userAgent: \(result)")
-//        }
                 
         self.txtOfHint.font = UIFont.systemFont(ofSize: 15)
         self.txtOfHint.textColor = UIColor.init(hex: "666666")
@@ -192,10 +220,8 @@ class TwitterVideoVC: BaseVC, WKNavigationDelegate {
         self.activityIndView.startAnimating()
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.evaluateJavaScript("document.documentElement.outerHTML.toString()") { (html, e) in
-            print("html: \(html!)")
-        }
+    @objc private func tryToSaveVideo() {
+        
     }
     
     @objc private func closeSelf() {

@@ -119,7 +119,7 @@ class MainVC: BaseVC, UITextViewDelegate {
     @objc private func tryToAnalyze() {
         print("tryToAnalyze")
         
-        self.content = "https://twitter.com/caijinglengyan/status/1288333962457341952?s=20"
+        self.content = "https://twitter.com/FreeBeacon/status/1288225829764378627?s=20"
         
         if (self.content.count == 0) {
             GlobalTool.showSingleAlert(title: "No Content Input", message: "Please input a Twitter link", actionTitle: "Okay", at: self)
