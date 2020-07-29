@@ -166,14 +166,15 @@ class TwitterVideoVC: BaseVC {
         self.activityIndView.removeFromSuperview()
         self.txtOfHint.removeFromSuperview()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Save", style: .done, target: self, action: #selector(tryToSaveVideo))
+        let activityIndView2 = UIActivityIndicatorView(style: .gray)
+        activityIndView2.startAnimating()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
         
         self.startToDownloadVideo()
         self.startToPlayVideo()
     }
     
     private func startToDownloadVideo() {
-//        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
         let destination: DownloadRequest.Destination = { temporaryURL, response in
             let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 
@@ -181,11 +182,14 @@ class TwitterVideoVC: BaseVC {
 
             return (url, [.removePreviousFile])
         }
-
+        
+        weak var weakSelf = self
         AF.download(self.final_result!, to: destination).downloadProgress { progress in
             print("progress: \(progress.fractionCompleted)")
         }.response { response in
             print("download response: \(response)")
+                        
+            weakSelf?.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Save", style: .done, target: weakSelf, action: #selector(weakSelf?.tryToSaveVideo))
         }
     }
     
