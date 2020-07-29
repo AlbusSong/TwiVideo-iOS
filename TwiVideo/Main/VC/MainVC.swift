@@ -117,7 +117,9 @@ class MainVC: BaseVC, UITextViewDelegate {
     }
     
     @objc private func tryToAnalyze() {
-        print("tryToAnalyze: \(self.content.count)")
+        print("tryToAnalyze")
+        
+        self.content = "https://twitter.com/caijinglengyan/status/1288333962457341952?s=20"
         
         if (self.content.count == 0) {
             GlobalTool.showSingleAlert(title: "No Content Input", message: "Please input a Twitter link", actionTitle: "Okay", at: self)
@@ -129,8 +131,9 @@ class MainVC: BaseVC, UITextViewDelegate {
             return
         }
         
-        // https://twitter.com/BullPup2A/status/1288041237992415232?s=20
+        // https://twitter.com/GuoXiaoTian2018/status/1288120414628020226?s=20
         let twitterVideoVC = TwitterVideoVC()
+        twitterVideoVC.urlContent = self.content
         let nav = BaseNavController(rootViewController: twitterVideoVC)
         self.present(nav, animated: true, completion: nil)
     }

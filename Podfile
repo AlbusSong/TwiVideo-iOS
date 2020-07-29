@@ -7,5 +7,6 @@ target 'TwiVideo' do
 
   # Pods for TwiVideo
   pod 'SnapKit'
+  pod 'Alamofire'
 
 end
