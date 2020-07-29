@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Alamofire
 import AVKit
+import Photos
 
 class TwitterVideoVC: BaseVC {
     
@@ -225,7 +226,22 @@ class TwitterVideoVC: BaseVC {
     }
     
     @objc private func tryToSaveVideo() {
-        
+        PHPhotoLibrary.shared().performChanges({
+            let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+
+            let videoUrl = directoryURL.appendingPathComponent("TwitterVideo.mp4")
+            
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
+        }) { (success, error) in
+            DispatchQueue.main.async {
+                if success {
+                    GlobalTool.showSingleAlert(title: "Success", message: "Saved to Photos", actionTitle: "OK", at:self)
+                } else {
+                    GlobalTool.showSingleAlert(title: "Error", message: "Failed to save to Photos. Please try again", actionTitle: "OK", at:self)
+                }
+            }
+        }
+
     }
     
     @objc private func closeSelf() {
