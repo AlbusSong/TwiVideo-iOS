@@ -18,7 +18,7 @@ class TwitterVideoVC: BaseVC {
     var userAgent: String!
     
     var headers: HTTPHeaders!
-    var video_id: String!
+    var videoId: String!
     
     var final_result: String?
     
@@ -44,10 +44,10 @@ class TwitterVideoVC: BaseVC {
             "accept-language": "es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5"]
 //        config.httpAdditionalHeaders = headers
 //        let session = URLSession.shared
-        self.video_id = String(self.urlContent.split(separator: "/").last ?? "")
-        print("ssssss: \(self.video_id!)")
+        self.videoId = String(self.urlContent.split(separator: "/").last ?? "")
+        print("ssssss: \(self.videoId!)")
         weak var weakSelf = self
-        AF.request("https://twitter.com/i/videos/tweet/" + self.video_id, method: .get, headers: self.headers).response  { responseData in
+        AF.request("https://twitter.com/i/videos/tweet/" + self.videoId, method: .get, headers: self.headers).response  { responseData in
             let htmlString: String = String(data: responseData.data ?? Data(), encoding: .utf8) ?? ""
             print("htmlString: \(htmlString)")
             
@@ -117,14 +117,14 @@ class TwitterVideoVC: BaseVC {
     
     private func fetchVideoLink() {
         weak var weakSelf = self
-        AF.request("https://api.twitter.com/1.1/statuses/show.json?id=" + self.video_id, method: .get, headers: self.headers).responseJSON { response in
+        AF.request("https://api.twitter.com/1.1/statuses/show.json?id=" + self.videoId, method: .get, headers: self.headers).responseJSON { response in
             switch response.result {
             case .success(let j):
                 print("json video info: \(j)")
                 let json = j as! [String: Any]
                 guard let extended_entities = json["extended_entities"] as? [String: Any] else {
-                    GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
-                    weakSelf?.hideHintUI()
+                    // if no 'extended_entities', we can try to fetch the video link throuth another api
+                    weakSelf?.fetchVideoLink2()
                     return
                 }
                 guard let media = extended_entities["media"] as? [Any] else {
@@ -177,10 +177,59 @@ class TwitterVideoVC: BaseVC {
         }
     }
     
+    private func fetchVideoLink2() {
+        var pureVideoId = self.videoId
+        if (self.videoId.contains("?")) {
+            pureVideoId = String(self.videoId.split(separator: "?").first ?? "")
+        }
+//        print("pureVideoId: \(pureVideoId!)")
+        
+        weak var weakSelf = self
+        AF.request("https://api.twitter.com/1.1/videos/tweet/config/" + pureVideoId! + ".json", method: .get, headers: self.headers).responseJSON { response in
+            switch response.result {
+            case .success(let j):
+                print("fetchVideoLink2: \(j)")
+                let json = j as! [String: Any]
+                guard let track = json["track"] as? [String:Any] else {
+                    GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                    weakSelf?.hideHintUI()
+                    return
+                }
+                
+                guard (track["playbackUrl"] as? String) != nil else {
+                    GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                    weakSelf?.hideHintUI()
+                    return
+                }
+                
+                let playbackUrl = track["playbackUrl"] as! String
+                print("playbackUrl: \(playbackUrl)")
+                weakSelf?.final_result = playbackUrl
+                weakSelf?.handleM3u8VideoLink()
+                
+            case .failure(let error):
+                print("json error: \(error)")
+                GlobalTool.showSingleAlert(title: "Error", message: error.errorDescription, actionTitle: "Retry", at:self)
+                weakSelf?.hideHintUI()
+            }
+        }
+    }
+    
     private func hideHintUI() {
         self.activityIndView.stopAnimating()
         self.activityIndView.removeFromSuperview()
         self.txtOfHint.removeFromSuperview()
+    }
+    
+    private func handleM3u8VideoLink() {
+        self.hideHintUI()
+        
+        let activityIndView2 = UIActivityIndicatorView(style: .gray)
+        activityIndView2.startAnimating()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
+        
+        self.startToDownloadM3u8Video()
+        self.startToPlayVideo()
     }
     
     private func handleVideoLink() {
@@ -194,6 +243,83 @@ class TwitterVideoVC: BaseVC {
         self.startToPlayVideo()
     }
     
+    private func startToDownloadM3u8Video() {
+        weak var weakSelf = self
+        AF.request(self.final_result!, method: .get, headers: self.headers).response { response in
+            let m3u8Content = String(data: response.data ?? Data(), encoding: .utf8)
+            print("startToDownloadM3u8Video response:\n\(m3u8Content!)")
+            let m3u8ContentOptions = m3u8Content?.split(separator: "\n")
+            print("m3u8ContentOptions: \(m3u8ContentOptions!)")
+            let m3u8VideoHost = (response.request?.url?.scheme ?? "") + "://" + (response.request?.url?.host ?? "")
+            print("m3u8VideoHost: \(m3u8VideoHost)")
+            
+            weakSelf?.fetchM3u8VideoSlicesInfo(m3u8VideoHost: m3u8VideoHost, extention: String((m3u8ContentOptions?.last)!))
+        }
+    }
+    
+    private func fetchM3u8VideoSlicesInfo(m3u8VideoHost: String!, extention: String!) {
+        weak var weakSelf = self
+        AF.request(m3u8VideoHost + extention, method: .get, headers: self.headers).response { response in
+            let m3u8Content = String(data: response.data ?? Data(), encoding: .utf8)
+            print("fetchM3u8VideoSlicesInfo:\n\(m3u8Content!)")
+            let m3u8ContentOptions = m3u8Content?.split(separator: "\n")
+            print("fetchM3u8VideoSlicesInfo Options: \(m3u8ContentOptions!)")
+            var videoSlices: [String] = []
+            for i in 0..<m3u8ContentOptions!.count {
+                let item = String(m3u8ContentOptions![i])
+                if (item.hasPrefix("#EXTINF:") && m3u8ContentOptions!.count > (i + 1)) {
+                    videoSlices.append(String(m3u8ContentOptions![i+1]))
+                }
+            }
+            print("videoSlices: \(videoSlices)")
+            
+            weakSelf?.downloadVideoSlices(m3u8VideoHost, videoSlices)
+        }
+    }
+    
+    private func downloadVideoSlices(_ m3u8VideoHost: String!, _ videoSlices: [String]!) {
+
+        let queue = DispatchQueue(label: "Concurrent queue", attributes: .concurrent)
+        let group = DispatchGroup()
+        
+        let documentDirUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let directoryURL = documentDirUrl.appendingPathComponent("m3u8")
+        print("directoryURL: \(directoryURL)")
+        try? FileManager.default.removeItem(at: directoryURL)
+        try? FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
+        
+        for i in 0..<videoSlices!.count {
+            queue.async {
+                group.enter()
+                
+                let sliceString = videoSlices[i]
+                let wholeSliceUrl = m3u8VideoHost + sliceString
+                            
+                let destination: DownloadRequest.Destination = { temporaryURL, response in
+                    let url = directoryURL.appendingPathComponent(String(format: "%d.ts", i))
+                    return (url, [.removePreviousFile])
+                }
+                            
+                AF.download(wholeSliceUrl, headers: self.headers, to: destination).downloadProgress { progress in
+                    print("progress: \(progress.fractionCompleted)")
+                }.response { response in
+                    print("download response: \(response)")
+                    print("idiididid: \(i)")
+                    group.leave()
+                }
+            }
+        }
+        
+        group.notify(queue: queue) {
+            print("finish all slices downloading")
+            self.combineAllVideoSlices()
+        }
+    }
+    
+    private func combineAllVideoSlices() {
+        
+    }
+    
     private func startToDownloadVideo() {
         let destination: DownloadRequest.Destination = { temporaryURL, response in
             let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -204,7 +330,7 @@ class TwitterVideoVC: BaseVC {
         }
         
         weak var weakSelf = self
-        AF.download(self.final_result!, to: destination).downloadProgress { progress in
+        AF.download(self.final_result!, headers: self.headers, to: destination).downloadProgress { progress in
             print("progress: \(progress.fractionCompleted)")
         }.response { response in
             print("download response: \(response)")
