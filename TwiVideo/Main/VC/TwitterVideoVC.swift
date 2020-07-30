@@ -227,9 +227,9 @@ class TwitterVideoVC: BaseVC {
         let activityIndView2 = UIActivityIndicatorView(style: .gray)
         activityIndView2.startAnimating()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
-        
-        self.startToDownloadM3u8Video()
+                
         self.startToPlayVideo()
+        self.startToDownloadM3u8Video()
     }
     
     private func handleVideoLink() {
@@ -238,23 +238,39 @@ class TwitterVideoVC: BaseVC {
         let activityIndView2 = UIActivityIndicatorView(style: .gray)
         activityIndView2.startAnimating()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
-        
-        self.startToDownloadVideo()
+                
         self.startToPlayVideo()
+        self.startToDownloadVideo()
     }
     
     private func startToDownloadM3u8Video() {
         weak var weakSelf = self
-        AF.request(self.final_result!, method: .get, headers: self.headers).response { response in
-            let m3u8Content = String(data: response.data ?? Data(), encoding: .utf8)
-            print("startToDownloadM3u8Video response:\n\(m3u8Content!)")
-            let m3u8ContentOptions = m3u8Content?.split(separator: "\n")
-            print("m3u8ContentOptions: \(m3u8ContentOptions!)")
-            let m3u8VideoHost = (response.request?.url?.scheme ?? "") + "://" + (response.request?.url?.host ?? "")
-            print("m3u8VideoHost: \(m3u8VideoHost)")
-            
-            weakSelf?.fetchM3u8VideoSlicesInfo(m3u8VideoHost: m3u8VideoHost, extention: String((m3u8ContentOptions?.last)!))
+        DispatchQueue.global().async {
+            VideoHandlingTool.downloadM3u8Video(self.final_result!) { resultCode in
+                print("downloadM3u8VideoresultCode: \(resultCode)")
+                DispatchQueue.main.async {
+                    if (resultCode == 0) {
+                        // Success
+                        weakSelf?.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Save", style: .done, target: weakSelf, action: #selector(weakSelf?.tryToSaveVideo))
+                    } else {
+                        GlobalTool.showSingleAlert(title: "Error", message: "Unable to extract video from this link. Please make sure there exists video under this Tweet", actionTitle: "OK", at:self)
+                        weakSelf?.hideHintUI()
+                    }
+                }
+            }
         }
+        
+//        weak var weakSelf = self
+//        AF.request(self.final_result!, method: .get, headers: self.headers).response { response in
+//            let m3u8Content = String(data: response.data ?? Data(), encoding: .utf8)
+//            print("startToDownloadM3u8Video response:\n\(m3u8Content!)")
+//            let m3u8ContentOptions = m3u8Content?.split(separator: "\n")
+//            print("m3u8ContentOptions: \(m3u8ContentOptions!)")
+//            let m3u8VideoHost = (response.request?.url?.scheme ?? "") + "://" + (response.request?.url?.host ?? "")
+//            print("m3u8VideoHost: \(m3u8VideoHost)")
+//
+//            weakSelf?.fetchM3u8VideoSlicesInfo(m3u8VideoHost: m3u8VideoHost, extention: String((m3u8ContentOptions?.last)!))
+//        }
     }
     
     private func fetchM3u8VideoSlicesInfo(m3u8VideoHost: String!, extention: String!) {
@@ -317,7 +333,7 @@ class TwitterVideoVC: BaseVC {
     }
     
     private func combineAllVideoSlices() {
-        
+        VideoHandlingTool.combineVideoSlices()
     }
     
     private func startToDownloadVideo() {

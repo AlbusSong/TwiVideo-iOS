@@ -1,20 +1,24 @@
 PODS:
   - Alamofire (5.2.2)
+  - mobile-ffmpeg-full (4.4)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - Alamofire
+  - mobile-ffmpeg-full
   - SnapKit
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - mobile-ffmpeg-full
     - SnapKit
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  mobile-ffmpeg-full: 505c583d91ac1c4fb2b015787e69d83f83fb8f29
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: a70a873a4886ed8af69031ad7e45120c2af0467f
+PODFILE CHECKSUM: cf57b87a1fd62ce79952c1b9ae78a2fc6ec83a6c
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

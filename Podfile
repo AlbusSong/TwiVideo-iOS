@@ -8,5 +8,6 @@ target 'TwiVideo' do
   # Pods for TwiVideo
   pod 'SnapKit'
   pod 'Alamofire'
+  pod 'mobile-ffmpeg-full'
 
 end

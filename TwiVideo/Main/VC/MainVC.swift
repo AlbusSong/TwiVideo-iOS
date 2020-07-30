@@ -135,10 +135,13 @@ class MainVC: BaseVC, UITextViewDelegate {
     }
     
     @objc private func tryToAnalyze() {
-        print("tryToAnalyze")                
+        print("tryToAnalyze")
         
-        // https://twitter.com/henglixiaoge/status/1287816567187595265?s=21
-        self.content = "https://twitter.com/Varneyco/status/1288480987337363457?s=20"
+//        VideoHandlingTool.combineVideoSlices()
+//        return
+        
+//        https://twitter.com/henglixiaoge/status/1287816567187595265?s=21
+//        self.content = "https://twitter.com/Varneyco/status/1288480987337363457?s=20"
         
         if (self.content.count == 0) {
             GlobalTool.showSingleAlert(title: "No Content Input", message: "Please input a Twitter link", actionTitle: "Okay", at: self)
