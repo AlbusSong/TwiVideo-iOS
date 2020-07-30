@@ -229,7 +229,7 @@ class TwitterVideoVC: BaseVC {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
                 
         self.startToPlayVideo()
-        self.startToDownloadM3u8Video()
+        self.startToDownloadM3u8VideoDirectlyUsingFFMpeg()
     }
     
     private func handleVideoLink() {
@@ -243,7 +243,7 @@ class TwitterVideoVC: BaseVC {
         self.startToDownloadVideo()
     }
     
-    private func startToDownloadM3u8Video() {
+    private func startToDownloadM3u8VideoDirectlyUsingFFMpeg() {
         weak var weakSelf = self
         DispatchQueue.global().async {
             VideoHandlingTool.downloadM3u8Video(self.final_result!) { resultCode in
@@ -259,81 +259,6 @@ class TwitterVideoVC: BaseVC {
                 }
             }
         }
-        
-//        weak var weakSelf = self
-//        AF.request(self.final_result!, method: .get, headers: self.headers).response { response in
-//            let m3u8Content = String(data: response.data ?? Data(), encoding: .utf8)
-//            print("startToDownloadM3u8Video response:\n\(m3u8Content!)")
-//            let m3u8ContentOptions = m3u8Content?.split(separator: "\n")
-//            print("m3u8ContentOptions: \(m3u8ContentOptions!)")
-//            let m3u8VideoHost = (response.request?.url?.scheme ?? "") + "://" + (response.request?.url?.host ?? "")
-//            print("m3u8VideoHost: \(m3u8VideoHost)")
-//
-//            weakSelf?.fetchM3u8VideoSlicesInfo(m3u8VideoHost: m3u8VideoHost, extention: String((m3u8ContentOptions?.last)!))
-//        }
-    }
-    
-    private func fetchM3u8VideoSlicesInfo(m3u8VideoHost: String!, extention: String!) {
-        weak var weakSelf = self
-        AF.request(m3u8VideoHost + extention, method: .get, headers: self.headers).response { response in
-            let m3u8Content = String(data: response.data ?? Data(), encoding: .utf8)
-            print("fetchM3u8VideoSlicesInfo:\n\(m3u8Content!)")
-            let m3u8ContentOptions = m3u8Content?.split(separator: "\n")
-            print("fetchM3u8VideoSlicesInfo Options: \(m3u8ContentOptions!)")
-            var videoSlices: [String] = []
-            for i in 0..<m3u8ContentOptions!.count {
-                let item = String(m3u8ContentOptions![i])
-                if (item.hasPrefix("#EXTINF:") && m3u8ContentOptions!.count > (i + 1)) {
-                    videoSlices.append(String(m3u8ContentOptions![i+1]))
-                }
-            }
-            print("videoSlices: \(videoSlices)")
-            
-            weakSelf?.downloadVideoSlices(m3u8VideoHost, videoSlices)
-        }
-    }
-    
-    private func downloadVideoSlices(_ m3u8VideoHost: String!, _ videoSlices: [String]!) {
-
-        let queue = DispatchQueue(label: "Concurrent queue", attributes: .concurrent)
-        let group = DispatchGroup()
-        
-        let documentDirUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let directoryURL = documentDirUrl.appendingPathComponent("m3u8")
-        print("directoryURL: \(directoryURL)")
-        try? FileManager.default.removeItem(at: directoryURL)
-        try? FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
-        
-        for i in 0..<videoSlices!.count {
-            queue.async {
-                group.enter()
-                
-                let sliceString = videoSlices[i]
-                let wholeSliceUrl = m3u8VideoHost + sliceString
-                            
-                let destination: DownloadRequest.Destination = { temporaryURL, response in
-                    let url = directoryURL.appendingPathComponent(String(format: "%d.ts", i))
-                    return (url, [.removePreviousFile])
-                }
-                            
-                AF.download(wholeSliceUrl, headers: self.headers, to: destination).downloadProgress { progress in
-                    print("progress: \(progress.fractionCompleted)")
-                }.response { response in
-                    print("download response: \(response)")
-                    print("idiididid: \(i)")
-                    group.leave()
-                }
-            }
-        }
-        
-        group.notify(queue: queue) {
-            print("finish all slices downloading")
-            self.combineAllVideoSlices()
-        }
-    }
-    
-    private func combineAllVideoSlices() {
-        VideoHandlingTool.combineVideoSlices()
     }
     
     private func startToDownloadVideo() {
@@ -407,5 +332,84 @@ class TwitterVideoVC: BaseVC {
     
     @objc private func closeSelf() {
         self.navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    // MARK: Deprecated methods for handling m3u8 video link
+    private func startToDownloadM3u8Video() {
+        weak var weakSelf = self
+        AF.request(self.final_result!, method: .get, headers: self.headers).response { response in
+            let m3u8Content = String(data: response.data ?? Data(), encoding: .utf8)
+            print("startToDownloadM3u8Video response:\n\(m3u8Content!)")
+            let m3u8ContentOptions = m3u8Content?.split(separator: "\n")
+            print("m3u8ContentOptions: \(m3u8ContentOptions!)")
+            let m3u8VideoHost = (response.request?.url?.scheme ?? "") + "://" + (response.request?.url?.host ?? "")
+            print("m3u8VideoHost: \(m3u8VideoHost)")
+
+            weakSelf?.fetchM3u8VideoSlicesInfo(m3u8VideoHost: m3u8VideoHost, extention: String((m3u8ContentOptions?.last)!))
+        }
+    }
+    
+    private func fetchM3u8VideoSlicesInfo(m3u8VideoHost: String!, extention: String!) {
+        weak var weakSelf = self
+        AF.request(m3u8VideoHost + extention, method: .get, headers: self.headers).response { response in
+            let m3u8Content = String(data: response.data ?? Data(), encoding: .utf8)
+            print("fetchM3u8VideoSlicesInfo:\n\(m3u8Content!)")
+            let m3u8ContentOptions = m3u8Content?.split(separator: "\n")
+            print("fetchM3u8VideoSlicesInfo Options: \(m3u8ContentOptions!)")
+            var videoSlices: [String] = []
+            for i in 0..<m3u8ContentOptions!.count {
+                let item = String(m3u8ContentOptions![i])
+                if (item.hasPrefix("#EXTINF:") && m3u8ContentOptions!.count > (i + 1)) {
+                    videoSlices.append(String(m3u8ContentOptions![i+1]))
+                }
+            }
+            print("videoSlices: \(videoSlices)")
+            
+            weakSelf?.downloadVideoSlices(m3u8VideoHost, videoSlices)
+        }
+    }
+    
+    private func downloadVideoSlices(_ m3u8VideoHost: String!, _ videoSlices: [String]!) {
+
+        let queue = DispatchQueue(label: "Concurrent queue", attributes: .concurrent)
+        let group = DispatchGroup()
+        
+        let documentDirUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let directoryURL = documentDirUrl.appendingPathComponent("m3u8")
+        print("directoryURL: \(directoryURL)")
+        try? FileManager.default.removeItem(at: directoryURL)
+        try? FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true, attributes: nil)
+        
+        for i in 0..<videoSlices!.count {
+            queue.async {
+                group.enter()
+                
+                let sliceString = videoSlices[i]
+                let wholeSliceUrl = m3u8VideoHost + sliceString
+                            
+                let destination: DownloadRequest.Destination = { temporaryURL, response in
+                    let url = directoryURL.appendingPathComponent(String(format: "%d.ts", i))
+                    return (url, [.removePreviousFile])
+                }
+                            
+                AF.download(wholeSliceUrl, headers: self.headers, to: destination).downloadProgress { progress in
+                    print("progress: \(progress.fractionCompleted)")
+                }.response { response in
+                    print("download response: \(response)")
+                    print("idiididid: \(i)")
+                    group.leave()
+                }
+            }
+        }
+        
+        group.notify(queue: queue) {
+            print("finish all slices downloading")
+            self.combineAllVideoSlices()
+        }
+    }
+    
+    private func combineAllVideoSlices() {
+        VideoHandlingTool.combineVideoSlices()
     }
 }
