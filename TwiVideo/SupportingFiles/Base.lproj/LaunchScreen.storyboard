@@ -23,7 +23,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="WAV-73-puT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="U7z-8Y-vUZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WAV-73-puT" secondAttribute="bottom" constant="50" id="aJa-3T-ReT"/>
