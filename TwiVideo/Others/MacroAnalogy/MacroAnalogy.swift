@@ -24,7 +24,11 @@ func IS_DARK_MODE() -> Bool {
 func get_is_iphonex() -> Bool {
     var result = false
     if #available(iOS 11.0, *) {
-        result = ((UIApplication.shared.keyWindow?.safeAreaInsets.bottom)! > 0.0)
+        guard let b = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else {
+            return false
+        }
+        
+        result = (b > 0)
     }
     return result
 }

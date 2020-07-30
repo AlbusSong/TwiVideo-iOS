@@ -46,6 +46,19 @@ class MainVC: BaseVC, UITextViewDelegate {
     }
     
     func initSubviews() {
+        let imgvOfLogo = UIImageView()
+        imgvOfLogo.clipsToBounds = true
+        imgvOfLogo.contentMode = .scaleAspectFit
+        imgvOfLogo.layer.cornerRadius = 5
+        imgvOfLogo.image = UIImage(named: "Main-Logo")
+        self.view.addSubview(imgvOfLogo)
+        let topMarginOfImgvLogo = IS_IPHONEX ? 120 : 80
+        imgvOfLogo.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(topMarginOfImgvLogo)
+            make.width.height.equalTo(30)
+        }
+        
         let txtOfTitle = UILabel()
         txtOfTitle.font = .systemFont(ofSize: 22)
         txtOfTitle.textColor = .black
@@ -53,7 +66,7 @@ class MainVC: BaseVC, UITextViewDelegate {
         txtOfTitle.text = "Download Video On Twitter"
         self.view.addSubview(txtOfTitle)
         txtOfTitle.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(100)
+            make.top.equalTo(imgvOfLogo.snp_bottomMargin).offset(20)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
         }
