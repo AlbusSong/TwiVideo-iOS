@@ -14,6 +14,8 @@ class MainVC: BaseVC, UITextViewDelegate {
     
     var content : String = ""
     
+    let txvOfContent = UITextView()
+    
     var webViewForUserAgent: WKWebView?
     var userAgent: String! = ""
 
@@ -84,21 +86,33 @@ class MainVC: BaseVC, UITextViewDelegate {
         txtOfGuide.attributedText = NSAttributedString(string: "Guide", attributes: [NSAttributedString.Key.underlineStyle : 1])
         
         
-        let txvOfContent = UITextView()
-        txvOfContent.backgroundColor = UIColor.init(white: 0.95, alpha: 1.0)
-        txvOfContent.font = .systemFont(ofSize: 15)
-        txvOfContent.layer.borderColor = UIColor.init(white: 0.8, alpha: 1.0).cgColor
-        txvOfContent.layer.borderWidth = 1
-        txvOfContent.clipsToBounds = true
-        txvOfContent.layer.cornerRadius = 3
-        txvOfContent.delegate = self
-        txvOfContent.textColor = UIColor.init(white: 0.1, alpha: 1.0)
-        self.view.addSubview(txvOfContent)
-        txvOfContent.snp.makeConstraints { (make) in
+        self.txvOfContent.backgroundColor = UIColor.init(white: 0.95, alpha: 1.0)
+        self.txvOfContent.font = .systemFont(ofSize: 15)
+        self.txvOfContent.layer.borderColor = UIColor.init(white: 0.8, alpha: 1.0).cgColor
+        self.txvOfContent.layer.borderWidth = 1
+        self.txvOfContent.clipsToBounds = true
+        self.txvOfContent.layer.cornerRadius = 3
+        self.txvOfContent.delegate = self
+        self.txvOfContent.textColor = UIColor.init(white: 0.1, alpha: 1.0)
+        self.view.addSubview(self.txvOfContent)
+        self.txvOfContent.snp.makeConstraints { (make) in
             make.top.equalTo(txtOfGuide.snp_bottomMargin).offset(30)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
-            make.height.equalTo(160)
+            make.height.equalTo(150)
+        }
+        
+        let btnClear = UIButton.init(type: .system)
+        btnClear.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        btnClear.tintColor = UIColor.init(hex: "4ba0eb")
+        btnClear.setTitle("Clear", for: .normal)
+        btnClear.addTarget(self, action: #selector(btnClearClicked), for: .touchUpInside)
+        self.view.addSubview(btnClear)
+        btnClear.snp.makeConstraints { (make) in
+            make.bottom.equalTo(self.txvOfContent.snp_bottomMargin).offset(3)
+            make.right.equalToSuperview().offset(-22)
+            make.height.equalTo(21)
+            make.width.equalTo(50)
         }
         
         let btnAnalyze = UIButton(type: .system)
@@ -111,7 +125,7 @@ class MainVC: BaseVC, UITextViewDelegate {
         btnAnalyze.addTarget(self, action: #selector(tryToAnalyze), for: .touchUpInside)
         self.view.addSubview(btnAnalyze)
         btnAnalyze.snp.makeConstraints { (make) in
-            make.top.equalTo(txvOfContent.snp_bottomMargin).offset(50)
+            make.top.equalTo(self.txvOfContent.snp_bottomMargin).offset(50)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
             make.height.equalTo(50)
@@ -132,6 +146,11 @@ class MainVC: BaseVC, UITextViewDelegate {
     
     @objc private func backgroundViewClicked() {
         self.view.endEditing(true)
+    }
+    
+    @objc private func btnClearClicked() {
+        self.content = ""
+        self.txvOfContent.text = ""
     }
     
     @objc private func tryToAnalyze() {
