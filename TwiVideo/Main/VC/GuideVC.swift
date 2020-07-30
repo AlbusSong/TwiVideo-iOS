@@ -50,7 +50,7 @@ class GuideVC: BaseVC {
             make.top.equalTo(txt1.snp_bottomMargin).offset(20)
             make.left.equalTo(self.view).offset(20)
             make.right.equalTo(self.view).offset(-20)
-            make.height.equalTo((SCREEN_WIDTH - 20 * 2) * (imgv1.image!.size.height / imgv1.image!.size.width))
+            make.height.equalTo((self.view.bounds.size.width - 20 * 2) * (imgv1.image!.size.height / imgv1.image!.size.width))
         }
         
         let txt2 = UILabel()
@@ -74,7 +74,7 @@ class GuideVC: BaseVC {
             make.top.equalTo(txt2.snp_bottomMargin).offset(20)
             make.left.equalTo(self.view).offset(20)
             make.right.equalTo(self.view).offset(-20)
-            make.height.equalTo((SCREEN_WIDTH - 20 * 2) * (imgv2.image!.size.height / imgv2.image!.size.width))
+            make.height.equalTo((self.view.bounds.size.width - 20 * 2) * (imgv2.image!.size.height / imgv2.image!.size.width))
         }
         
         self.scv.layoutIfNeeded()
