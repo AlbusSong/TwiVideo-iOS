@@ -65,13 +65,6 @@ class TwitterVideoVC: BaseVC {
             
             weakSelf?.fetchBearerTokenBy(bearer_token_file: bearer_token_file)
         }
-        
-//        var urlReq = URLRequest(url: URL(string: "https://twitter.com/i/videos/tweet/" + "d")!)
-//        urlReq.httpMethod = "GET"
-//        let task = session.dataTask(with: urlReq) { (data, response, error) in
-//
-//        }
-//        task.resume()
     }
     
     private func fetchBearerTokenBy(bearer_token_file: String) {
@@ -225,6 +218,9 @@ class TwitterVideoVC: BaseVC {
         self.hideHintUI()
         
         let activityIndView2 = UIActivityIndicatorView(style: .gray)
+        if (IS_DARK_MODE()) {
+            activityIndView2.style = .white
+        }
         activityIndView2.startAnimating()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
                 
@@ -236,6 +232,9 @@ class TwitterVideoVC: BaseVC {
         self.hideHintUI()
         
         let activityIndView2 = UIActivityIndicatorView(style: .gray)
+        if (IS_DARK_MODE()) {
+            activityIndView2.style = .white
+        }
         activityIndView2.startAnimating()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
                 
@@ -335,7 +334,7 @@ class TwitterVideoVC: BaseVC {
     }
     
     
-    // MARK: Deprecated methods for handling m3u8 video link
+    // MARK: - Deprecated methods for handling m3u8 video link
     private func startToDownloadM3u8Video() {
         weak var weakSelf = self
         AF.request(self.final_result!, method: .get, headers: self.headers).response { response in
