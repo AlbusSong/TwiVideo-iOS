@@ -178,18 +178,5 @@ class MainVC: BaseVC, UITextViewDelegate {
         twitterVideoVC.userAgent = self.userAgent
         let nav = BaseNavController(rootViewController: twitterVideoVC)
         self.present(nav, animated: true, completion: nil)
-    }
-    
-    
-    
-    // MARK: Status bar
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        if #available(iOS 13.0, *) {
-            return .darkContent
-        } else {
-            // Fallback on earlier versions
-            return .default
-        }
-    }
+    }                
 }
