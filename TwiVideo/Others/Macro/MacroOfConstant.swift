@@ -9,4 +9,5 @@
 import Foundation
 
 
-let ADMOB_ID: String = "ca-app-pub-3940256099942544~145800251"
+let ADMOB_ID: String = "ca-app-pub-8622528197740245~8827360636"
+let ADMOB_UNIT_ID: String = "ca-app-pub-8622528197740245/7854681001"

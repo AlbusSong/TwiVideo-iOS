@@ -341,9 +341,9 @@ class TwitterVideoVC: BaseVC {
         
         print("AdMobTool.default.videoSavedTimes: \(AdMobTool.default.videoSavedTimes)")
         // show ads every 3 times of user saved videos
-        if (AdMobTool.default.videoSavedTimes % 3 != 0) {
-            return
-        }
+//        if (AdMobTool.default.videoSavedTimes % 2 != 0) {
+//            return
+//        }
         
         if (AdMobTool.default.interstitial.isReady) {
             AdMobTool.default.interstitial.present(fromRootViewController: self)

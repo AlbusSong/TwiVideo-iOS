@@ -25,7 +25,7 @@ class AdMobTool: NSObject, GADInterstitialDelegate {
     }
     
     private func createAndLoadInterstitial() -> GADInterstitial {
-        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        let interstitial = GADInterstitial(adUnitID: ADMOB_UNIT_ID)
         interstitial.delegate = self
         interstitial.load(GADRequest())
         return interstitial
