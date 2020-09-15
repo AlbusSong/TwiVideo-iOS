@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E5A18C22510CD2500628DEA /* MacroOfConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A18C12510CD2500628DEA /* MacroOfConstant.swift */; };
+		4E5A18C42510CF9100628DEA /* AdMobTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A18C32510CF9100628DEA /* AdMobTool.swift */; };
 		4E7695D124D2CF3D0012B0E0 /* MacroAnalogy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7695D024D2CF3D0012B0E0 /* MacroAnalogy.swift */; };
 		4E7A046D24D220AB00CCA8E2 /* VideoHandlingTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7A046C24D220AB00CCA8E2 /* VideoHandlingTool.m */; };
 		4E9834BA24CEF90400057B4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9834B924CEF90400057B4C /* AppDelegate.swift */; };
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		298ECB6EF28ABB6A166FCF27 /* Pods-TwiVideo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiVideo.debug.xcconfig"; path = "Target Support Files/Pods-TwiVideo/Pods-TwiVideo.debug.xcconfig"; sourceTree = "<group>"; };
+		4E5A18C12510CD2500628DEA /* MacroOfConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroOfConstant.swift; sourceTree = "<group>"; };
+		4E5A18C32510CF9100628DEA /* AdMobTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdMobTool.swift; sourceTree = "<group>"; };
 		4E7695D024D2CF3D0012B0E0 /* MacroAnalogy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroAnalogy.swift; sourceTree = "<group>"; };
 		4E7A046A24D220AA00CCA8E2 /* TwiVideo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TwiVideo-Bridging-Header.h"; sourceTree = "<group>"; };
 		4E7A046B24D220AB00CCA8E2 /* VideoHandlingTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoHandlingTool.h; sourceTree = "<group>"; };
@@ -56,6 +60,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E5A18C02510CCFF00628DEA /* Macro */ = {
+			isa = PBXGroup;
+			children = (
+				4E5A18C12510CD2500628DEA /* MacroOfConstant.swift */,
+			);
+			path = Macro;
+			sourceTree = "<group>";
+		};
 		4E7695CF24D2CEFF0012B0E0 /* MacroAnalogy */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +117,7 @@
 		4E9834CD24CEFA1300057B4C /* Others */ = {
 			isa = PBXGroup;
 			children = (
+				4E5A18C02510CCFF00628DEA /* Macro */,
 				4E7695CF24D2CEFF0012B0E0 /* MacroAnalogy */,
 				4EA57C6124D06FA100A0495E /* Tool */,
 				4E9834DB24CF0E9500057B4C /* Extension */,
@@ -172,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				4EA57C6224D06FC500A0495E /* GlobalTool.swift */,
+				4E5A18C32510CF9100628DEA /* AdMobTool.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -326,12 +340,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E5A18C22510CD2500628DEA /* MacroOfConstant.swift in Sources */,
 				4E9834DD24CF0EC800057B4C /* ColorExtra.swift in Sources */,
 				4EA57C6324D06FC500A0495E /* GlobalTool.swift in Sources */,
 				4EDC8A8824D072D300484F2D /* TwitterVideoVC.swift in Sources */,
 				4E9834D624CEFAFA00057B4C /* MainVC.swift in Sources */,
 				4E7695D124D2CF3D0012B0E0 /* MacroAnalogy.swift in Sources */,
 				4E9834D124CEFA2B00057B4C /* BaseVC.swift in Sources */,
+				4E5A18C42510CF9100628DEA /* AdMobTool.swift in Sources */,
 				4E7A046D24D220AB00CCA8E2 /* VideoHandlingTool.m in Sources */,
 				4E9834BA24CEF90400057B4C /* AppDelegate.swift in Sources */,
 				4E9834D824CF0CF100057B4C /* GuideVC.swift in Sources */,

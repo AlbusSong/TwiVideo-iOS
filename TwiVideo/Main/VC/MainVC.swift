@@ -18,6 +18,7 @@ class MainVC: BaseVC, UITextViewDelegate {
     
     var webViewForUserAgent: WKWebView?
     var userAgent: String! = ""
+            
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -167,7 +168,7 @@ class MainVC: BaseVC, UITextViewDelegate {
     }
     
     @objc private func tryToAnalyze() {
-        print("tryToAnalyze")
+        print("tryToAnalyze")                        
         
 //        VideoHandlingTool.combineVideoSlices()
 //        return

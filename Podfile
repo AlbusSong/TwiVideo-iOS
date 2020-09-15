@@ -9,5 +9,6 @@ target 'TwiVideo' do
   pod 'SnapKit'
   pod 'Alamofire'
   pod 'mobile-ffmpeg-full'
+  pod 'Google-Mobile-Ads-SDK'
 
 end

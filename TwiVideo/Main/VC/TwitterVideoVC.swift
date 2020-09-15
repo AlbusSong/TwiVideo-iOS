@@ -24,10 +24,10 @@ class TwitterVideoVC: BaseVC {
     
     let txtOfHint: UILabel = UILabel()
     let activityIndView: UIActivityIndicatorView = UIActivityIndicatorView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(title: "Close", style: .done, target: self, action: #selector(closeSelf))
@@ -42,8 +42,8 @@ class TwitterVideoVC: BaseVC {
             "User-Agent": self.userAgent,
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "accept-language": "es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5"]
-//        config.httpAdditionalHeaders = headers
-//        let session = URLSession.shared
+        //        config.httpAdditionalHeaders = headers
+        //        let session = URLSession.shared
         self.videoId = String(self.urlContent.split(separator: "/").last ?? "")
         print("ssssss: \(self.videoId!)")
         weak var weakSelf = self
@@ -71,7 +71,7 @@ class TwitterVideoVC: BaseVC {
         weak var weakSelf = self
         AF.request(bearer_token_file, method: .get, headers: self.headers).response { responseData in
             let jsString = String(data: responseData.data ?? Data(), encoding: .utf8) ?? ""
-//            print("jsString: \(jsString)")
+            //            print("jsString: \(jsString)")
             
             let regex = try! NSRegularExpression(pattern: "Bearer [a-zA-Z0-9%-]+", options: .caseInsensitive)
             let res = regex.matches(in: jsString, options: .init(rawValue: 0), range: NSRange(location: 0, length: jsString.count))
@@ -80,9 +80,9 @@ class TwitterVideoVC: BaseVC {
                 return
             }
             let checkRes = res.first!
-//            let startIndex = jsString.index(jsString.startIndex, offsetBy: checkRes.range.location)
-//            let endIndex = jsString.index(jsString.startIndex, offsetBy: (checkRes.range.location + checkRes.range.length))
-//            let bearer_token: String = String(jsString[startIndex..<endIndex])
+            //            let startIndex = jsString.index(jsString.startIndex, offsetBy: checkRes.range.location)
+            //            let endIndex = jsString.index(jsString.startIndex, offsetBy: (checkRes.range.location + checkRes.range.length))
+            //            let bearer_token: String = String(jsString[startIndex..<endIndex])
             let bearer_token: String = (jsString as NSString).substring(with: checkRes.range)
             print("bearer_token: \(bearer_token)")
             weakSelf?.headers["authorization"] = bearer_token
@@ -94,7 +94,7 @@ class TwitterVideoVC: BaseVC {
     private func tryToActivate() {
         weak var weakSelf = self
         AF.request("https://api.twitter.com/1.1/guest/activate.json", method: .post, headers: self.headers).responseJSON { response in
-//            print("activate.json: \(response)")
+            //            print("activate.json: \(response)")
             
             switch response.result {
             case .success(let json):
@@ -142,10 +142,10 @@ class TwitterVideoVC: BaseVC {
                 // extract the highest resolution video
                 var bitrate = Int64(0)
                 for v in video_infos {
-//                    let selfType = String(describing:type(of: v)).self
-//                    print("selfType: \(selfType)")
+                    //                    let selfType = String(describing:type(of: v)).self
+                    //                    print("selfType: \(selfType)")
                     let dict = v as! [String: Any]
-//                    print("dict: \(dict)")
+                    //                    print("dict: \(dict)")
                     if (dict["bitrate"] == nil) {
                         continue
                     }
@@ -175,7 +175,7 @@ class TwitterVideoVC: BaseVC {
         if (self.videoId.contains("?")) {
             pureVideoId = String(self.videoId.split(separator: "?").first ?? "")
         }
-//        print("pureVideoId: \(pureVideoId!)")
+        //        print("pureVideoId: \(pureVideoId!)")
         
         weak var weakSelf = self
         AF.request("https://api.twitter.com/1.1/videos/tweet/config/" + pureVideoId! + ".json", method: .get, headers: self.headers).responseJSON { response in
@@ -223,7 +223,7 @@ class TwitterVideoVC: BaseVC {
         }
         activityIndView2.startAnimating()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
-                
+        
         self.startToPlayVideo()
         self.startToDownloadM3u8VideoDirectlyUsingFFMpeg()
     }
@@ -237,7 +237,7 @@ class TwitterVideoVC: BaseVC {
         }
         activityIndView2.startAnimating()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: activityIndView2)
-                
+        
         self.startToPlayVideo()
         self.startToDownloadVideo()
     }
@@ -263,9 +263,9 @@ class TwitterVideoVC: BaseVC {
     private func startToDownloadVideo() {
         let destination: DownloadRequest.Destination = { temporaryURL, response in
             let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-
+            
             let url = directoryURL.appendingPathComponent("TwitterVideo.mp4") 
-
+            
             return (url, [.removePreviousFile])
         }
         
@@ -274,7 +274,7 @@ class TwitterVideoVC: BaseVC {
             print("progress: \(progress.fractionCompleted)")
         }.response { response in
             print("download response: \(response)")
-                        
+            
             weakSelf?.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "Save", style: .done, target: weakSelf, action: #selector(weakSelf?.tryToSaveVideo))
         }
     }
@@ -290,7 +290,7 @@ class TwitterVideoVC: BaseVC {
     }
     
     private func initSubview() {
-                
+        
         self.txtOfHint.font = UIFont.systemFont(ofSize: 15)
         self.txtOfHint.textColor = UIColor.init(hex: "666666")
         self.txtOfHint.text = "Analyzing..."
@@ -313,20 +313,43 @@ class TwitterVideoVC: BaseVC {
     @objc private func tryToSaveVideo() {
         PHPhotoLibrary.shared().performChanges({
             let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-
+            
             let videoUrl = directoryURL.appendingPathComponent("TwitterVideo.mp4")
             
             PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
         }) { (success, error) in
             DispatchQueue.main.async {
                 if success {
-                    GlobalTool.showSingleAlert(title: "Success", message: "Saved to Photos", actionTitle: "OK", at:self)
+//                    GlobalTool.showSingleAlert(title: "Success", message: "Saved to Photos", actionTitle: "OK", at:self)
+                    let alertCtler = UIAlertController(title: "Success", message: "Saved to Photos", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                        self.tryToShowAds()
+                    })
+                    alertCtler.addAction(okAction)
+                    self.present(alertCtler, animated: true, completion: nil)
                 } else {
                     GlobalTool.showSingleAlert(title: "Error", message: "Failed to save to Photos. Please try again", actionTitle: "OK", at:self)
                 }
             }
         }
-
+        
+    }
+    
+    private func tryToShowAds() {
+        AdMobTool.default.videoSavedTimes += 1
+        AdMobTool.default.storeVideoSavedTimes()
+        
+        print("AdMobTool.default.videoSavedTimes: \(AdMobTool.default.videoSavedTimes)")
+        // show ads every 3 times of user saved videos
+        if (AdMobTool.default.videoSavedTimes % 3 != 0) {
+            return
+        }
+        
+        if (AdMobTool.default.interstitial.isReady) {
+            AdMobTool.default.interstitial.present(fromRootViewController: self)
+        } else {
+            print("Ad wasn't ready")
+        }
     }
     
     @objc private func closeSelf() {
@@ -344,7 +367,7 @@ class TwitterVideoVC: BaseVC {
             print("m3u8ContentOptions: \(m3u8ContentOptions!)")
             let m3u8VideoHost = (response.request?.url?.scheme ?? "") + "://" + (response.request?.url?.host ?? "")
             print("m3u8VideoHost: \(m3u8VideoHost)")
-
+            
             weakSelf?.fetchM3u8VideoSlicesInfo(m3u8VideoHost: m3u8VideoHost, extention: String((m3u8ContentOptions?.last)!))
         }
     }
@@ -370,7 +393,7 @@ class TwitterVideoVC: BaseVC {
     }
     
     private func downloadVideoSlices(_ m3u8VideoHost: String!, _ videoSlices: [String]!) {
-
+        
         let queue = DispatchQueue(label: "Concurrent queue", attributes: .concurrent)
         let group = DispatchGroup()
         
@@ -386,12 +409,12 @@ class TwitterVideoVC: BaseVC {
                 
                 let sliceString = videoSlices[i]
                 let wholeSliceUrl = m3u8VideoHost + sliceString
-                            
+                
                 let destination: DownloadRequest.Destination = { temporaryURL, response in
                     let url = directoryURL.appendingPathComponent(String(format: "%d.ts", i))
                     return (url, [.removePreviousFile])
                 }
-                            
+                
                 AF.download(wholeSliceUrl, headers: self.headers, to: destination).downloadProgress { progress in
                     print("progress: \(progress.fractionCompleted)")
                 }.response { response in
