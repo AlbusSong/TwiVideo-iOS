@@ -17,6 +17,9 @@ class AdMobTool: NSObject, GADInterstitialDelegate {
     
     private override init() {
         super.init()
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
         interstitial = self.createAndLoadInterstitial()
         
         videoSavedTimes = UserDefaults.standard.integer(forKey: "videoSavedTimes")
@@ -35,8 +38,20 @@ class AdMobTool: NSObject, GADInterstitialDelegate {
         interstitial = self.createAndLoadInterstitial()
     }
     
+    func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        print("interstitialDidReceiveAd")
+    }
+    
+    func interstitial(_ ad: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
+        print("didFailToReceiveAdWithError: \(error)")
+    }
+    
     public func storeVideoSavedTimes() {
         UserDefaults.standard.set(videoSavedTimes, forKey: "videoSavedTimes")
         UserDefaults.standard.synchronize()
+    }
+    
+    public func checkRunning() {
+        print("checkRunning: \(self)")
     }
 }
